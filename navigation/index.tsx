@@ -20,6 +20,7 @@ import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
 import MainTabNavigator from "./MainTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
+import ChatRoomScreen from "../screens/ChatRoomScreen";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -76,6 +77,27 @@ function RootNavigator() {
             </View>
           )
         }}
+      />
+      <Stack.Screen
+        name="ChatRoom"
+        component={ChatRoomScreen}
+        options={({route}) => ({
+          title: route.params.name,
+          headerRight: () => (
+            <View
+              style={{
+                flexDirection: 'row',
+                width: 100,
+                justifyContent: 'space-between',
+                marginRight: 10,
+              }}
+            >
+              <FontAwesome5 name="video" size={22} color={'white'} />
+              <MaterialIcons name="call" size={22} color={'white'} />
+              <MaterialCommunityIcons name="dots-vertical" size={22} color={'white'} />
+            </View>
+          )
+        })}
       />
       <Stack.Screen
         name="NotFound"
