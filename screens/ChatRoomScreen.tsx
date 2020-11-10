@@ -9,6 +9,7 @@ import BG from '../assets/images/BG.png';
 import InputBox from "../components/InputBox";
 
 const ChatRoomScreen = () => {
+
   const route = useRoute();
 
   return(
@@ -18,7 +19,7 @@ const ChatRoomScreen = () => {
           renderItem={({item}) => <ChatMessage message={item} /> }
           inverted
       />
-      <InputBox />
+      <InputBox chatRoomID={route.params.id} />
     </ImageBackground>
   );
 };
