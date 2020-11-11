@@ -6,6 +6,7 @@ import { useRoute } from "@react-navigation/native";
 import {API, Auth, graphqlOperation} from 'aws-amplify';
 
 import {messagesByChatRoom} from '../graphql/queries';
+import {onCreateMessage} from '../graphql/subscriptions';
 
 import ChatMessage from "../components/ChatMessage";
 import BG from '../assets/images/BG.png';
@@ -40,6 +41,26 @@ const ChatRoomScreen = () => {
       setMyId(userInfo.attributes.sub);
     }
     getMyId();
+  }, [])
+
+  const addMessageToState = (message)=> {
+    setMessages([message, ...messages]);
+  };
+  
+  useEffect(() => {
+    const subscription = API.graphql(
+      graphqlOperation(onCreateMessage)
+    ).subscribe({
+      next: (data) => {
+        const newMessage = data.value.data.onCreateMessage;
+
+        if(newMessage.chatRoomID !== route.params.id) {
+          return;
+        }
+        addMessageToState(newMessage);
+      }
+    });
+    return () => subscription.unsubscribe();
   }, [])
 
   return(
