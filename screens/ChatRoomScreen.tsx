@@ -19,19 +19,19 @@ const ChatRoomScreen = () => {
 
   const route = useRoute();
 
+  const fetchMessages = async () => {
+    const messagesData = await API.graphql(
+      graphqlOperation(
+        messagesByChatRoom, {
+          chatRoomID: route.params.id,
+          sortDirection: "DESC"
+        }
+      )
+    )
+    setMessages(messagesData.data.messagesByChatRoom.items);
+  }
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      const messagesData = await API.graphql(
-        graphqlOperation(
-          messagesByChatRoom, {
-            chatRoomID: route.params.id,
-            sortDirection: "DESC"
-          }
-        )
-      )
-      setMessages(messagesData.data.messagesByChatRoom.items);
-    }
     fetchMessages();
   }, [])
 
@@ -42,10 +42,6 @@ const ChatRoomScreen = () => {
     }
     getMyId();
   }, [])
-
-  const addMessageToState = (message)=> {
-    setMessages([message, ...messages]);
-  };
   
   useEffect(() => {
     const subscription = API.graphql(
@@ -57,7 +53,8 @@ const ChatRoomScreen = () => {
         if(newMessage.chatRoomID !== route.params.id) {
           return;
         }
-        addMessageToState(newMessage);
+        fetchMessages();
+        // addMessageToState(newMessage);
       }
     });
     return () => subscription.unsubscribe();
