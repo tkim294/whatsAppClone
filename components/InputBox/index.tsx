@@ -6,7 +6,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { TextInput, View } from "react-native";
+import { TextInput, View, KeyboardAvoidingView, Platform } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./styles";
 
@@ -80,6 +80,11 @@ const InputBox = (props) => {
   };
 
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS == "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={100}
+      style={{width: '100%'}}
+    >
     <View style={styles.container}>
       <View style={styles.mainContainer}>
         <FontAwesome5 name="laugh-beam" size={24} color="grey" />
@@ -105,6 +110,7 @@ const InputBox = (props) => {
         </View>
       </TouchableOpacity>
     </View>
+    </KeyboardAvoidingView>
   );
 };
 

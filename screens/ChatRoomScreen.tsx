@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, ImageBackground, Text } from "react-native";
+import { FlatList, ImageBackground, KeyboardAvoidingView, Platform } from "react-native";
 
 import { useRoute } from "@react-navigation/native";
 
